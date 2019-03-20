@@ -8,15 +8,19 @@ import {
   TouchableWithoutFeedback,
   StatusBar,
   SafeAreaView,
+  Platform,
+  findNodeHandle,
 } from 'react-native';
 import { polyfill } from 'react-lifecycles-compat';
 import color from 'color';
 import FAB from './FAB';
 import Text from '../Typography/Text';
 import Card from '../Card/Card';
+import { BlurView } from 'react-native-blur';
 import { withTheme } from '../../core/theming';
 import type { Theme } from '../../types';
-import type { IconSource } from '../Icon';
+import typeimport { number } from 'prop-types';
+ { IconSource } from '../Icon';
 
 type Props = {|
   /**
@@ -80,11 +84,14 @@ type Props = {|
    * @optional
    */
   theme: Theme,
+
+  viewRef: ?number,
 |};
 
 type State = {
   backdrop: Animated.Value,
   animations: Animated.Value[],
+  viewRef: ?number,
 };
 
 /**
@@ -103,6 +110,7 @@ type State = {
  * export default class MyComponent extends React.Component {
  *   state = {
  *     open: false,
+ *
  *   };
  *
  *   render() {
@@ -145,6 +153,7 @@ class FABGroup extends React.Component<Props, State> {
   state = {
     backdrop: new Animated.Value(0),
     animations: [],
+    viewRef: null,
   };
 
   componentDidUpdate(prevProps) {
@@ -239,13 +248,25 @@ class FABGroup extends React.Component<Props, State> {
           <Animated.View
             pointerEvents={open ? 'auto' : 'none'}
             style={[
-              styles.backdrop,
-              {
-                opacity: backdropOpacity,
-                backgroundColor: colors.backdrop,
-              },
+              Platform.OS === 'android'
+                ? [
+                    styles.backdrop,
+                    {
+                      opacity: backdropOpacity,
+                      backgroundColor: colors.backdrop,
+                    },
+                  ]
+                : null,
             ]}
+            ref={viewRef => (this.viewRef = viewRef)}
+            onLayout={Platform.select({
+              ios: () =>
+                this.setState({ viewRef: findNodeHandle(this.viewRef) }),
+            })}
           />
+          {Platform.OS === 'ios'
+            ? [<BlurView viewRef={this.state.viewRef} blurType="light" />]
+            : null}
         </TouchableWithoutFeedback>
         <SafeAreaView pointerEvents="box-none" style={styles.safeArea}>
           <View pointerEvents={open ? 'box-none' : 'none'}>
