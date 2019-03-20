@@ -249,33 +249,35 @@ class FABGroup extends React.Component<Props, State> {
       >
         {open ? <StatusBar barStyle="light-content" /> : null}
         <TouchableWithoutFeedback onPress={this._close}>
-          <View>
-            <Animated.View
-              pointerEvents={open ? 'auto' : 'none'}
-              style={[
-                Platform.OS === 'android'
-                  ? [
-                      styles.backdrop,
-                      {
-                        opacity: backdropOpacity,
-                        backgroundColor: colors.backdrop,
-                      },
-                    ]
-                  : null,
-              ]}
-            />
-            {Platform.OS === 'ios'
-              ? [
-                  <BlurView
-                    viewRef={this.state.viewRef}
-                    blurType="light"
-                    blurAmount={35}
-                  />,
-                ]
-              : null}
-          </View>
+          <Animated.View
+            pointerEvents={open ? 'auto' : 'none'}
+            style={[
+              Platform.OS === 'android'
+                ? [
+                    styles.backdrop,
+                    {
+                      opacity: backdropOpacity,
+                      backgroundColor: colors.backdrop,
+                    },
+                  ]
+                : null,
+            ]}
+          />
         </TouchableWithoutFeedback>
-
+        {open ? (
+          <BlurView
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+            }}
+            viewRef={this.state.viewRef}
+            blurType="light"
+            blurAmount={5}
+          />
+        ) : null}
         <SafeAreaView pointerEvents="box-none" style={styles.safeArea}>
           <View pointerEvents={open ? 'box-none' : 'none'}>
             {actions.map((it, i) => (
