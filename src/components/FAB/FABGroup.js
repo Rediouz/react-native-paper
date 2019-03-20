@@ -263,10 +263,10 @@ class FABGroup extends React.Component<Props, State> {
                 this.setState({ viewRef: findNodeHandle(this.viewRef) }),
             })}
           />
-          {Platform.OS === 'ios'
-            ? [<BlurView viewRef={this.state.viewRef} blurType="light" />]
-            : null}
         </TouchableWithoutFeedback>
+        {Platform.OS === 'ios'
+          ? [<BlurView viewRef={this.state.viewRef} blurType="light" />]
+          : null}
         <SafeAreaView pointerEvents="box-none" style={styles.safeArea}>
           <View pointerEvents={open ? 'box-none' : 'none'}>
             {actions.map((it, i) => (
