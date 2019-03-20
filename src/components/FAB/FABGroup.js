@@ -83,8 +83,6 @@ type Props = {|
    * @optional
    */
   theme: Theme,
-
-  viewRef: ?number,
 |};
 
 type State = {
@@ -241,7 +239,14 @@ class FABGroup extends React.Component<Props, State> {
     );
 
     return (
-      <View pointerEvents="box-none" style={[styles.container, style]}>
+      <View
+        pointerEvents="box-none"
+        style={[styles.container, style]}
+        ref={viewRef => (this.viewRef = viewRef)}
+        onLayout={Platform.select({
+          ios: () => this.setState({ viewRef: findNodeHandle(this.viewRef) }),
+        })}
+      >
         {open ? <StatusBar barStyle="light-content" /> : null}
         <TouchableWithoutFeedback onPress={this._close}>
           <View>
@@ -258,11 +263,6 @@ class FABGroup extends React.Component<Props, State> {
                     ]
                   : null,
               ]}
-              ref={viewRef => (this.viewRef = viewRef)}
-              onLayout={Platform.select({
-                ios: () =>
-                  this.setState({ viewRef: findNodeHandle(this.viewRef) }),
-              })}
             />
             {Platform.OS === 'ios'
               ? [
