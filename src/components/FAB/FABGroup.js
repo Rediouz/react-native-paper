@@ -19,8 +19,7 @@ import Card from '../Card/Card';
 import { BlurView } from 'react-native-blur';
 import { withTheme } from '../../core/theming';
 import type { Theme } from '../../types';
-import typeimport { number } from 'prop-types';
- { IconSource } from '../Icon';
+import type { IconSource } from '../Icon';
 
 type Props = {|
   /**
