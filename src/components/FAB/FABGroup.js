@@ -265,7 +265,13 @@ class FABGroup extends React.Component<Props, State> {
               })}
             />
             {Platform.OS === 'ios'
-              ? [<BlurView viewRef={this.state.viewRef} blurType="light" />]
+              ? [
+                  <BlurView
+                    viewRef={this.state.viewRef}
+                    blurType="light"
+                    blurAmount={35}
+                  />,
+                ]
               : null}
           </View>
         </TouchableWithoutFeedback>
