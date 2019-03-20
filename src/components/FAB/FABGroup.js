@@ -244,29 +244,32 @@ class FABGroup extends React.Component<Props, State> {
       <View pointerEvents="box-none" style={[styles.container, style]}>
         {open ? <StatusBar barStyle="light-content" /> : null}
         <TouchableWithoutFeedback onPress={this._close}>
-          <Animated.View
-            pointerEvents={open ? 'auto' : 'none'}
-            style={[
-              Platform.OS === 'android'
-                ? [
-                    styles.backdrop,
-                    {
-                      opacity: backdropOpacity,
-                      backgroundColor: colors.backdrop,
-                    },
-                  ]
-                : null,
-            ]}
-            ref={viewRef => (this.viewRef = viewRef)}
-            onLayout={Platform.select({
-              ios: () =>
-                this.setState({ viewRef: findNodeHandle(this.viewRef) }),
-            })}
-          />
+          <View>
+            <Animated.View
+              pointerEvents={open ? 'auto' : 'none'}
+              style={[
+                Platform.OS === 'android'
+                  ? [
+                      styles.backdrop,
+                      {
+                        opacity: backdropOpacity,
+                        backgroundColor: colors.backdrop,
+                      },
+                    ]
+                  : null,
+              ]}
+              ref={viewRef => (this.viewRef = viewRef)}
+              onLayout={Platform.select({
+                ios: () =>
+                  this.setState({ viewRef: findNodeHandle(this.viewRef) }),
+              })}
+            />
+            {Platform.OS === 'ios'
+              ? [<BlurView viewRef={this.state.viewRef} blurType="light" />]
+              : null}
+          </View>
         </TouchableWithoutFeedback>
-        {Platform.OS === 'ios'
-          ? [<BlurView viewRef={this.state.viewRef} blurType="light" />]
-          : null}
+
         <SafeAreaView pointerEvents="box-none" style={styles.safeArea}>
           <View pointerEvents={open ? 'box-none' : 'none'}>
             {actions.map((it, i) => (
