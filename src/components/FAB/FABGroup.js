@@ -270,7 +270,7 @@ class FABGroup extends React.Component<Props, State> {
               position: 'absolute',
               top: 0,
               left: 0,
-              bottom: 0,
+              bottom: '-100%',
               right: 0,
             }}
             viewRef={this.state.viewRef}
@@ -378,6 +378,7 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
+    bottom: '-100%',
   },
   label: {
     borderRadius: 5,
