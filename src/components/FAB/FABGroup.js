@@ -264,7 +264,7 @@ class FABGroup extends React.Component<Props, State> {
             ]}
           />
         </TouchableWithoutFeedback>
-        {open && Platform.OS === 'ios' ? (
+        {open ? (
           <BlurView
             style={{
               position: 'absolute',
